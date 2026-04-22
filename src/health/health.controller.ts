@@ -14,5 +14,6 @@ export class HealthController {
       status: 'ok',
       timestamp: new Date().toISOString(),
       circuitBreakers: this.circuitBreaker.getAllStates(),
+    };
   }
 }
