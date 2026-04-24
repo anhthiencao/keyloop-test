@@ -18,8 +18,8 @@ const mockResponse = {
     },
   ],
   meta: {
-    salesApi: { status: 'fulfilled', count: 1 },
-    serviceApi: { status: 'fulfilled', count: 0 },
+    salesApi: { status: 'success', count: 1 },
+    serviceApi: { status: 'success', count: 0 },
     isPartial: false,
     totalCount: 1,
   },

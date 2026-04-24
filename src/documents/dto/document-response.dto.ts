@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export type SourceSystem = 'sales' | 'service';
-export type SourceStatus = 'fulfilled' | 'failed';
+export type SourceStatus = 'success' | 'failed';
 
 export class DocumentDto {
   @ApiProperty({ example: 'doc-001' })
@@ -24,7 +24,7 @@ export class DocumentDto {
 }
 
 export class SourceMetaDto {
-  @ApiProperty({ enum: ['fulfilled', 'failed'] })
+  @ApiProperty({ enum: ['success', 'failed'] })
   status: SourceStatus;
 
   @ApiProperty({ example: 3 })

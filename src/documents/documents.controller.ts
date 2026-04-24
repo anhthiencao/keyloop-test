@@ -20,7 +20,6 @@ export class DocumentsController {
     @Query() query: GetDocumentsDto,
     @Req() req: Request & { traceId: string },
   ): Promise<DocumentsResponseDto> {
-    this.logger.log({ traceId: req.traceId, vin: query.vin, event: 'request_received' });
     return this.documentsService.aggregate(query.vin, req.traceId);
   }
 }

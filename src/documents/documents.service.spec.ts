@@ -57,8 +57,8 @@ describe('DocumentsService', () => {
 
       expect(result.documents).toHaveLength(5);
       expect(result.meta.isPartial).toBe(false);
-      expect(result.meta.salesApi.status).toBe('fulfilled');
-      expect(result.meta.serviceApi.status).toBe('fulfilled');
+      expect(result.meta.salesApi.status).toBe('success');
+      expect(result.meta.serviceApi.status).toBe('success');
     });
 
     it('sorts documents by createdAt descending', async () => {
@@ -160,7 +160,7 @@ describe('DocumentsService', () => {
 
       expect(auditService.log).toHaveBeenCalledWith(
         expect.objectContaining({
-          salesStatus: 'rejected',
+          salesStatus: 'failed',
           salesError: 'timeout',
         }),
       );

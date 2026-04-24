@@ -4,7 +4,6 @@ Phase: Documentation
 Status: Complete
 Priority: Critical
 Due Date: April 18, 2026
-Notes: ambiguous requirements
 
 ## Key Clarifications
 
@@ -26,7 +25,6 @@ Notes: ambiguous requirements
 - Fetching data in parallel
 - Data normalization (different schemas)
 - Handling duplicated, partial failures data
-- Keeping latency low
 
 ---
 

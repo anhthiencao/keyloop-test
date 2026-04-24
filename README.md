@@ -49,12 +49,12 @@ npm run test:cov
 npm test -- --watch
 ```
 
-Test suite — 22 cases across three spec files:
+Test suite — 27 cases across three spec files:
 
 | File | Cases | What it tests |
 |---|---|---|
 | `documents.service.spec.ts` | 9 | Business logic: merge, sort, dedup, partial failure, full failure, audit log |
-| `documents.controller.spec.ts` | 7 | HTTP layer: VIN validation, traceId propagation, status codes |
+| `documents.controller.spec.ts` | 12 | HTTP layer: VIN validation, traceId propagation, status codes |
 | `circuit-breaker.service.spec.ts` | 6 | Breaker lifecycle, state transitions, instance reuse |
 
 ---
@@ -96,8 +96,8 @@ curl "http://localhost:3000/health"
     }
   ],
   "meta": {
-    "salesApi":   { "status": "fulfilled", "count": 3 },
-    "serviceApi": { "status": "fulfilled", "count": 3 },
+    "salesApi":   { "status": "success", "count": 3 },
+    "serviceApi": { "status": "success", "count": 3 },
     "isPartial": false,
     "totalCount": 6
   }
@@ -113,8 +113,8 @@ When one source is unavailable, documents from the healthy source are still retu
   "traceId": "...",
   "documents": [...],
   "meta": {
-    "salesApi":   { "status": "fulfilled", "count": 3 },
-    "serviceApi": { "status": "rejected", "count": 0, "reason": "Connection timeout" },
+    "salesApi":   { "status": "success", "count": 3 },
+    "serviceApi": { "status": "failed", "count": 0, "reason": "Connection timeout" },
     "isPartial": true,
     "totalCount": 3
   }
@@ -150,8 +150,8 @@ Every request produces a structured log entry:
   "latency_ms": 312,
   "totalCount": 6,
   "isPartial": false,
-  "salesStatus": "fulfilled",
-  "serviceStatus": "fulfilled"
+  "salesStatus": "success",
+  "serviceStatus": "success"
 }
 ```
 
@@ -216,7 +216,7 @@ Once the document was complete and agreed upon, I exported it from Notion as Mar
 
 ### Step 5 — Test cases first (TDD-first, peer review with AI)
 
-All 22 test cases were written in plain English **before AI was asked to write any implementation code**. The test list is the contract — AI must satisfy it, not shape it.
+All 27 test cases were written in plain English **before AI was asked to write any implementation code**. The test list is the contract — AI must satisfy it, not shape it.
 
 After writing my own scenarios, I asked AI to review the list as a peer:
 
@@ -232,7 +232,7 @@ AI suggested five additions. Three were accepted, two were rejected:
 | Assert caching for repeated VIN lookups within TTL | ❌ Reject | No cache in this implementation — out of scope. |
 | Assert 503 when circuit breaker is OPEN | ❌ Reject | CB state is observable at `/health`; 503 is not a documented contract here. |
 
-The final list — 22 cases — was locked before any implementation began.
+The final list —  cases — was locked before any implementation began.
 
 ---
 
@@ -247,7 +247,7 @@ Before allowing any code to be written, I verified the plan against the document
 The standing instruction for every implementation task:
 
 ```
-After implementing, run all 22 tests.
+After implementing, run all 27 tests.
 If any test fails — fix the implementation, not the test.
 Only consider the task done when all tests pass.
 ```

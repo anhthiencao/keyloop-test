@@ -4,8 +4,6 @@ Phase: System Design
 Status: Complete
 Priority: Critical
 Due Date: April 19, 2026
-Notes: Document chosen technologies for backend (Node.js/Express), frontend (React), database (PostgreSQL), containerization (Docker), and testing (Jest). Include rationale for each choice.
-Technology: Docker, Jest, Node.js, PostgreSQL, React, TypeScript
 
 | **Category** | **Technology** | **Justification** |
 | --- | --- | --- |

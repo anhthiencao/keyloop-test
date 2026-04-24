@@ -1,12 +1,29 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoggerModule } from 'nestjs-pino';
 import { DocumentsModule } from './documents/documents.module';
 import { SearchAuditLog } from './audit/audit-log.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    LoggerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        pinoHttp: {
+          level: config.get('LOG_LEVEL', 'info'),
+          transport:
+            config.get('NODE_ENV') !== 'production'
+              ? { target: 'pino-pretty', options: { colorize: true, translateTime: 'SYS:standard', ignore: 'pid,hostname' } }
+              : undefined,
+          serializers: {
+            req: (req) => ({ method: req.method, url: req.url, traceId: req.headers?.['x-trace-id'] }),
+            res: (res) => ({ statusCode: res.statusCode }),
+          },
+        },
+      }),
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({

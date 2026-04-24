@@ -33,7 +33,7 @@ export class DocumentsService {
       salesResult.status === 'rejected' || serviceResult.status === 'rejected';
 
     const toSourceStatus = (s: 'fulfilled' | 'rejected') =>
-      s === 'fulfilled' ? ('fulfilled' as const) : ('failed' as const);
+      s === 'fulfilled' ? ('success' as const) : ('failed' as const);
 
     const meta = {
       salesApi: {
@@ -62,8 +62,8 @@ export class DocumentsService {
       latency_ms: Date.now() - start,
       totalCount: documents.length,
       isPartial,
-      salesStatus: salesResult.status,
-      serviceStatus: serviceResult.status,
+      salesStatus: toSourceStatus(salesResult.status),
+      serviceStatus: toSourceStatus(serviceResult.status),
     });
 
     // Fire-and-forget — intentionally not awaited
@@ -71,13 +71,13 @@ export class DocumentsService {
       traceId,
       vin,
       durationMs: Date.now() - start,
-      salesStatus: salesResult.status,
+      salesStatus: toSourceStatus(salesResult.status),
       salesCount: salesDocs.length,
       salesError:
         salesResult.status === 'rejected'
           ? (salesResult.reason as Error)?.message
           : undefined,
-      serviceStatus: serviceResult.status,
+      serviceStatus: toSourceStatus(serviceResult.status),
       serviceCount: serviceDocs.length,
       serviceError:
         serviceResult.status === 'rejected'
